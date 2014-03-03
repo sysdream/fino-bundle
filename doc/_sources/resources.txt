@@ -1,0 +1,10 @@
+Using Android application resources
+===================================
+
+In Android Application, resources are used to stored binaries, strings and images. These resources are identified by a resource id, stored in the *R* public static class.
+
+Fino automatically maps this object and makes it available as follows:
+
+.. code-block:: python
+
+    >>> dir(app.R.string)

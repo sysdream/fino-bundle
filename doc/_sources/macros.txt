@@ -1,0 +1,91 @@
+.. Macro creation for Fino
+    This document describes the way macros are defined and implemented,
+    how to use them and illustrate with some sample macros (provided in
+    the framework)
+
+
+Creating a macro for Fino
+=========================
+
+Fino features can be extended through the use of macros. There are many advantages to use macros instead of python code:
+
+* macros are dynamically loaded inside the target application, and are written in Java
+* communication between Fino and macros is made through Fino shell (no extra code)
+* better performances when dealing with huge amount of data or objects
+* may be used to hook a method or spoof an instance of a class
+
+A Fino bundle is adequate for macro development. It is also possible to build macros if you installed Fino from sources, but you may have to heavily modify the default Makefile.
+
+
+Creating your macro files
+-------------------------
+
+Fino bundle setup is shipped with a Makefile handling automatic macro building. That is, you still have to create a dedicated directory in the *macros* directory::
+
+    mkdir -p macros/my_macro/
+    cd macros/my_macros/
+
+Then, create the *MyMacro.macro* file, required by the makefile to specify the APK to produce::
+
+    touch MyMacro.macro
+
+Next, copy the *Makefile* of an existing builtin macro (such as *replay*) as follows::
+
+    cp ../replay/Makefile
+
+Set in the Makefile the *OBJECTS* variables, specify your java file paths (be careful of the dependencies)::
+
+    OBJECTS = MyMacro.java
+
+
+Last, create the *MyMacro.java* file::
+
+    touch MyMacro.java
+
+You are ready to implement your first macro =).
+
+
+Writing a macro for Fino
+------------------------
+
+Writing a macro is easy and very straight-forward: the only thing you have to implement is a class. Fino will then make this class available from the target application, and it may be used to perform specific operations provided by static methods or even regular methods if an instance of your macro class is required. 
+
+Here is a sample macro code:
+
+.. code-block:: java
+
+    import android.util.Log;
+
+    public class MyMacro {
+        static public void sayHello() {
+            Log.d("SampleMacro", "Hello from macro !");
+        }
+    }
+
+Save this sample as *MyMacro.java*.
+
+
+Compiling a macro
+-----------------
+
+The default Makefile handles any macro compilation, producing a final DEX file with the same prefix as the *.macro* file created previously. To build your macro, run the following command at the root of Fino bundle install::
+
+    make macros
+
+The compilation starts, and will produce every *.class* file required and a final APK file. This file is ready to be used in Fino shell.
+
+
+Using a macro from Fino shell
+-----------------------------
+
+Using Fino shell, the *app.load()* method performs the injection and returns an instance of a Java Class object, that may be used directly to call static methods or instanciate objects::
+
+    >>> macro = app.load('MyMacro', 'macros/mymacro/MyMacro.apk')
+    >>> macro.sayHello()
+
+The result of this call as displayed in the logcat::
+
+    D/MyMacro(18940): Hello from macro !
+
+Basically, macros are just dynamically loaded classes that may be used to perform various types of actions.
+

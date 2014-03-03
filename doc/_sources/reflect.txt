@@ -1,0 +1,66 @@
+Manipulating types and classes
+===============================
+
+Fino provides an easy way to investigate various types and classes residing inside an application. It relies on Python's auto-completion and introspection features.
+
+
+
+======================
+Builtin types bindings
+======================
+
+Builtin types are automatically recognized by Fino framework and equiped with specific methods available from the shell. These methods vary from one builtin type to another.
+
+However, calling a method of an object with a default Python argument is completely transparent to the user. Only a few types are handled by Fino:
+
+* integers
+* strings
+
+Any other Java-specific types should be handled using *app.get_class()* method, as follows:
+
+.. code-block:: python
+
+    >>> ic = app.get_class('java.lang.Integer')
+    >>> my_integer = ic(100)
+    >>> my_integer
+    100
+
+
+=================
+Types and Classes
+=================
+
+In Fino's shell, you can call methods as if you were inside the application, and manipulate the results as well. For instance, getting the class name of an object is not as much difficult as:
+
+.. code-block:: python
+
+    >>> current_act = app.listActivities()[0]
+    >>> current_act.getClass().toString()
+    'class com.example.fino.MainActivity'
+
+
+Or list all the methods and properties of a class:
+
+.. code-block:: python
+
+    >>> dir(current_act)
+
+
+================================
+Finding objects of a known Class
+================================
+
+The builtin extension DeepInspect allows a recursive search among the existing objects, returning all the objects encountered that match a given type:
+
+.. code-block:: python
+
+    >>> deepinsp = app.load('DeepInspect', 'macros/deepinspect/DeepInspect.apk')
+    >>> finder = deepinsp()
+    >>> my_act = app.listActivities()[0]
+    >>> results = finder.findObjects(my_act, "android.app.String")
+    >>> for i in results:
+    ...     print i
+
+This pîece of code will find all *String* object starting from the first running activity, and return them in the *results* list. This list may be used to print each of them.
+
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Playing with Android Activities &mdash; Fino Documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Fino Documentation 1.0 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="playing-with-android-activities">
+<h1>Playing with Android Activities<a class="headerlink" href="#playing-with-android-activities" title="Permalink to this headline">¶</a></h1>
+<p>Android applications expose many <em>Activities</em> to the user that may be used to perform actions on the application. These <em>Activ ities</em> are in fact some kind of windows the user can interact with. There are also the main starting point of an analysis with Fino, because there are the only types of objects referenced by the system.</p>
+<div class="section" id="finding-running-activities">
+<h2>Finding running Activities<a class="headerlink" href="#finding-running-activities" title="Permalink to this headline">¶</a></h2>
+<p>Fino shell provides a root object named <em>app</em> that provides a specific method to list running activities:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">listActivities</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>A call to <em>app.listActivities()</em> will return a list of running activities as objects that can be used directly to interact with them. Here is a sample code showing how to get the first running activity of a target application:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_activity</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">listActivities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="manipulating-an-activity">
+<h2>Manipulating an Activity<a class="headerlink" href="#manipulating-an-activity" title="Permalink to this headline">¶</a></h2>
+<p>Once an activity found, every public or private method can be called without any restriction. It is possible to change an activity&#8217;s title:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_activity</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s">&quot;Ooops !&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Other interesting methods are but not limited to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>getApplicationContext()</em>: retrieve the application Context</li>
+<li><em>finish()</em>: close the activity</li>
+<li><em>refresh()</em>: force Activity refresh (implemented in Fino shell)</li>
+</ul>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Note that some methods implemented in the <em>android.app.Activity</em> class (Java) must be run on the UI thread. In this case, Fino will automatically try to call the method outside the UI thread, and if an error occured in the UI thread. The point is a method run in the UI thread cannot return any value.</p>
+</div>
+</div>
+<div class="section" id="starting-an-activity">
+<h2>Starting an Activity<a class="headerlink" href="#starting-an-activity" title="Permalink to this headline">¶</a></h2>
+<p>Running activities can be accessed by Fino, but Fino can also launch an Activity from scratch, with a default Intent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">startActivity</span><span class="p">(</span><span class="s">&#39;org.sample.MainActivity&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Playing with Android Activities</a><ul>
+<li><a class="reference internal" href="#finding-running-activities">Finding running Activities</a></li>
+<li><a class="reference internal" href="#manipulating-an-activity">Manipulating an Activity</a></li>
+<li><a class="reference internal" href="#starting-an-activity">Starting an Activity</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/activities.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sysdream.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

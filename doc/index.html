@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fino Documentation &mdash; Fino Documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Fino Documentation 1.0 documentation" href="#" />
+    <link rel="next" title="How to install Fino" href="bundle/setup.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="bundle/setup.html" title="How to install Fino"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="fino-documentation">
+<h1>Fino Documentation<a class="headerlink" href="#fino-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This is the official reference documentation of Fino, a framework for performing dynamic analysis of android applications.</p>
+<div class="section" id="framework-overview">
+<h2>Framework Overview<a class="headerlink" href="#framework-overview" title="Permalink to this headline">¶</a></h2>
+<p>Fino is composed of three parts:</p>
+<ul class="simple">
+<li>Fino Service, an injectable and remote-controlled service for Android application, with its injector</li>
+<li>Gadget, an Android compatible TCP relaying application</li>
+<li>Gadget-client, a python-based console performing all the magic</li>
+</ul>
+</div>
+<div class="section" id="installing-fino-from-bundle">
+<h2>Installing Fino from Bundle<a class="headerlink" href="#installing-fino-from-bundle" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bundle/setup.html">How to install Fino</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bundle/setup.html#install-from-bundle">Install from bundle</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bundle/first_steps.html">First steps with Fino</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bundle/first_steps.html#preparing-for-analysis">Preparing for analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bundle/first_steps.html#setting-up-fino-s-python-console">Setting up Fino&#8217;s python console</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="installing-fino-from-sources">
+<h2>Installing Fino from Sources<a class="headerlink" href="#installing-fino-from-sources" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sources/setup.html">How to install Fino</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sources/setup.html#install-from-sources">Install from sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sources/first_steps.html">First steps with Fino (Sources)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sources/first_steps.html#preparing-for-analysis">Preparing for analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sources/first_steps.html#setting-up-fino-s-python-console">Setting up Fino&#8217;s python console</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="using-fino">
+<h2>Using Fino<a class="headerlink" href="#using-fino" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reflect.html">Manipulating types and classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reflect.html#builtin-types-bindings">Builtin types bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reflect.html#types-and-classes">Types and Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reflect.html#finding-objects-of-a-known-class">Finding objects of a known Class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="activities.html">Playing with Android Activities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="activities.html#finding-running-activities">Finding running Activities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="activities.html#manipulating-an-activity">Manipulating an Activity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="activities.html#starting-an-activity">Starting an Activity</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Using Android application resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="macros.html">Creating a macro for Fino</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="macros.html#creating-your-macro-files">Creating your macro files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macros.html#writing-a-macro-for-fino">Writing a macro for Fino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macros.html#compiling-a-macro">Compiling a macro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macros.html#using-a-macro-from-fino-shell">Using a macro from Fino shell</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adv_macros.html">Modifying the target application&#8217;s behavior</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="adv_macros.html#hooking-a-method-with-a-dedicated-wrapper">Hooking a method with a dedicated wrapper</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fino Documentation</a><ul>
+<li><a class="reference internal" href="#framework-overview">Framework Overview</a></li>
+<li><a class="reference internal" href="#installing-fino-from-bundle">Installing Fino from Bundle</a></li>
+<li><a class="reference internal" href="#installing-fino-from-sources">Installing Fino from Sources</a></li>
+<li><a class="reference internal" href="#using-fino">Using Fino</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="bundle/setup.html"
+                        title="next chapter">How to install Fino</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="bundle/setup.html" title="How to install Fino"
+             >next</a> |</li>
+        <li><a href="#">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sysdream.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

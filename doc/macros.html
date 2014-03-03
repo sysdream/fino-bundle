@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating a macro for Fino &mdash; Fino Documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Fino Documentation 1.0 documentation" href="index.html" />
+    <link rel="prev" title="First steps with Fino" href="first_steps.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="first_steps.html" title="First steps with Fino"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="creating-a-macro-for-fino">
+<h1>Creating a macro for Fino<a class="headerlink" href="#creating-a-macro-for-fino" title="Permalink to this headline">¶</a></h1>
+<p>Fino features can be extended through the use of macros. There are many advantages to use macros instead of python code:</p>
+<ul class="simple">
+<li>macros are dynamically loaded inside the target application, and are written in Java</li>
+<li>communication between Fino and macros is made through Fino shell (no extra code)</li>
+<li>better performances when dealing with huge amount of data or objects</li>
+<li>may be used to hook a method or spoof an instance of a class</li>
+</ul>
+<p>A Fino bundle is adequate for macro development. It is also possible to build macros if you installed Fino from sources, but you may have to heavily modify the default Makefile.</p>
+<div class="section" id="creating-your-macro-files">
+<h2>Creating your macro files<a class="headerlink" href="#creating-your-macro-files" title="Permalink to this headline">¶</a></h2>
+<p>Fino bundle setup is shipped with a Makefile handling automatic macro building. That is, you still have to create a dedicated directory in the <em>macros</em> directory:</p>
+<div class="highlight-python"><div class="highlight"><pre>mkdir -p macros/my_macro/
+cd macros/my_macros/
+</pre></div>
+</div>
+<p>Then, create the <em>MyMacro.macro</em> file, required by the makefile to specify the APK to produce:</p>
+<div class="highlight-python"><div class="highlight"><pre>touch MyMacro.macro
+</pre></div>
+</div>
+<p>Next, copy the <em>Makefile</em> of an existing builtin macro (such as <em>replay</em>) as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>cp ../replay/Makefile
+</pre></div>
+</div>
+<p>Set in the Makefile the <em>OBJECTS</em> variables, specify your java file paths (be careful of the dependencies):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">OBJECTS</span> <span class="o">=</span> <span class="n">MyMacro</span><span class="o">.</span><span class="n">java</span>
+</pre></div>
+</div>
+<p>Last, create the <em>MyMacro.java</em> file:</p>
+<div class="highlight-python"><div class="highlight"><pre>touch MyMacro.java
+</pre></div>
+</div>
+<p>You are ready to implement your first macro =).</p>
+</div>
+<div class="section" id="writing-a-macro-for-fino">
+<h2>Writing a macro for Fino<a class="headerlink" href="#writing-a-macro-for-fino" title="Permalink to this headline">¶</a></h2>
+<p>Writing a macro is easy and very straight-forward: the only thing you have to implement is a class. Fino will then make this class available from the target application, and it may be used to perform specific operations provided by static methods or even regular methods if an instance of your macro class is required.</p>
+<p>Here is a sample macro code:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">android.util.Log</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyMacro</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sayHello</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;SampleMacro&quot;</span><span class="o">,</span> <span class="s">&quot;Hello from macro !&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Save this sample as <em>MyMacro.java</em>.</p>
+</div>
+<div class="section" id="compiling-a-macro">
+<h2>Compiling a macro<a class="headerlink" href="#compiling-a-macro" title="Permalink to this headline">¶</a></h2>
+<p>The default Makefile handles any macro compilation, producing a final DEX file with the same prefix as the <em>.macro</em> file created previously. To build your macro, run the following command at the root of Fino bundle install:</p>
+<div class="highlight-python"><div class="highlight"><pre>make macros
+</pre></div>
+</div>
+<p>The compilation starts, and will produce every <em>.class</em> file required and a final APK file. This file is ready to be used in Fino shell.</p>
+</div>
+<div class="section" id="using-a-macro-from-fino-shell">
+<h2>Using a macro from Fino shell<a class="headerlink" href="#using-a-macro-from-fino-shell" title="Permalink to this headline">¶</a></h2>
+<p>Using Fino shell, the <em>app.load()</em> method performs the injection and returns an instance of a Java Class object, that may be used directly to call static methods or instanciate objects:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">macro</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;MyMacro&#39;</span><span class="p">,</span> <span class="s">&#39;macros/mymacro/MyMacro.apk&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">macro</span><span class="o">.</span><span class="n">sayHello</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The result of this call as displayed in the logcat:</p>
+<div class="highlight-python"><div class="highlight"><pre>D/MyMacro(18940): Hello from macro !
+</pre></div>
+</div>
+<p>Basically, macros are just dynamically loaded classes that may be used to perform various types of actions.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Creating a macro for Fino</a><ul>
+<li><a class="reference internal" href="#creating-your-macro-files">Creating your macro files</a></li>
+<li><a class="reference internal" href="#writing-a-macro-for-fino">Writing a macro for Fino</a></li>
+<li><a class="reference internal" href="#compiling-a-macro">Compiling a macro</a></li>
+<li><a class="reference internal" href="#using-a-macro-from-fino-shell">Using a macro from Fino shell</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="first_steps.html"
+                        title="previous chapter">First steps with Fino</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/macros.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="first_steps.html" title="First steps with Fino"
+             >previous</a> |</li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sysdream.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

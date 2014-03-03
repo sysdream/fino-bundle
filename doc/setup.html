@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to install Fino &mdash; Fino Documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Fino Documentation 1.0 documentation" href="index.html" />
+    <link rel="next" title="First steps with Fino" href="first_steps.html" />
+    <link rel="prev" title="Fino Documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="first_steps.html" title="First steps with Fino"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Fino Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-install-fino">
+<h1>How to install Fino<a class="headerlink" href="#how-to-install-fino" title="Permalink to this headline">¶</a></h1>
+<p>If you want to setup your Fino environment from sources, be sure your configuration meet the following requirements:</p>
+<ul class="simple">
+<li>Ant (1)</li>
+<li>Apktool (<a class="reference external" href="http://code.google.com/p/android-apktool/">http://code.google.com/p/android-apktool/</a>) (1)</li>
+<li>Android SDK (<a class="reference external" href="http://developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a>) (1)</li>
+<li>OpenJDK</li>
+<li>Python 2.7</li>
+</ul>
+<ol class="arabic simple">
+<li>These requesites are mandatory if you plan to install Fino from sources.</li>
+</ol>
+<div class="section" id="install-from-bundle">
+<h2>Install from bundle<a class="headerlink" href="#install-from-bundle" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cloning-the-repository">
+<h3>Cloning the repository<a class="headerlink" href="#cloning-the-repository" title="Permalink to this headline">¶</a></h3>
+<p>Clone Fino bundle repository using git:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/sysdream/fino-bundle
+cd fino-bundle
+</pre></div>
+</div>
+</div>
+<div class="section" id="updating-the-sdk-bundles">
+<h3>Updating the SDK bundles<a class="headerlink" href="#updating-the-sdk-bundles" title="Permalink to this headline">¶</a></h3>
+<p>Fino bundle is shipped with a Makefile able to update Android 32-bit and 64-bit SDKs. To get the bundled SDK version:</p>
+<div class="highlight-python"><div class="highlight"><pre>make update
+</pre></div>
+</div>
+<p>An update script will make the job for you (Internet access required). Then, check if everything is correct by compiling the builtin macros:</p>
+<div class="highlight-python"><div class="highlight"><pre>make macros
+</pre></div>
+</div>
+<p>If some error show up, please check your Java setup or the bundled SDKs.</p>
+</div>
+</div>
+<div class="section" id="install-from-sources">
+<h2>Install from sources<a class="headerlink" href="#install-from-sources" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="preparing-your-android-sdk">
+<h3>Preparing your Android SDK<a class="headerlink" href="#preparing-your-android-sdk" title="Permalink to this headline">¶</a></h3>
+<p>Before doing anything else, make sure you have the latest version of Android SDK. If not, you may follow these steps:</p>
+<ol class="arabic simple">
+<li>Go to <a class="reference external" href="http://developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a> and click on &#8220;Download the SDK&#8221;</li>
+<li>Install the Android SDK Bundle at a specific location (i.e. /opt/android-bundle/)</li>
+<li>Make sure the <em>sdk/platform-tools</em> directory is in your <em>PATH</em> environment variable</li>
+<li>Make sure the <em>sdk/tools</em> directory is in your <em>PATH</em> environment variable</li>
+</ol>
+</div>
+<div class="section" id="generating-a-debug-keystore">
+<h3>Generating a debug keystore<a class="headerlink" href="#generating-a-debug-keystore" title="Permalink to this headline">¶</a></h3>
+<p>In order to sign every modified application APK (once Fino service inside), a debug keystore is required by the injector. To create this keystore, execute this command:</p>
+<div class="highlight-python"><div class="highlight"><pre>mkdir -p ~/.android/
+keytool -genkey -v -keystore ~/.android/fino.keystore -alias finokey -storepass finopass -keypass finopass -keyalg RSA -validity 14000
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This keystore has to be generated for each user who will be working with the framework</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">This step is optional, as the building scripts will check and generate it if necessary.</p>
+</div>
+</div>
+<div class="section" id="building-fino-service">
+<h3>Building Fino Service<a class="headerlink" href="#building-fino-service" title="Permalink to this headline">¶</a></h3>
+<p>First of all, you need to compile the Fino service in order to produce an unsigned APK file that will be used later by our injector.</p>
+<p>Create a directory for your build:</p>
+<div class="highlight-python"><div class="highlight"><pre>mkdir build
+cd build
+</pre></div>
+</div>
+<p>Clone Fino Service git repository:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/sysdream/fino.git
+cd fino
+</pre></div>
+</div>
+<p>Build:</p>
+<div class="highlight-python"><div class="highlight"><pre>./build.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-gadget-app">
+<h3>Building Gadget app<a class="headerlink" href="#building-gadget-app" title="Permalink to this headline">¶</a></h3>
+<p>It is exactly the same for building Gadget app from sources.</p>
+<p>Clone Gadget git repository:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd ..
+git clone https://github.com/sysdream/gadget.git
+cd gadget
+</pre></div>
+</div>
+<p>Build:</p>
+<div class="highlight-python"><div class="highlight"><pre>./build.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-gadget-client-fino-console">
+<h3>Installing Gadget-client (Fino console)<a class="headerlink" href="#installing-gadget-client-fino-console" title="Permalink to this headline">¶</a></h3>
+<p>Eventually, clone Fino framework&#8217;s git repository:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd ..
+git clone https://github.com/sysdream/gadget-client.git
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to install Fino</a><ul>
+<li><a class="reference internal" href="#install-from-bundle">Install from bundle</a><ul>
+<li><a class="reference internal" href="#cloning-the-repository">Cloning the repository</a></li>
+<li><a class="reference internal" href="#updating-the-sdk-bundles">Updating the SDK bundles</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#install-from-sources">Install from sources</a><ul>
+<li><a class="reference internal" href="#preparing-your-android-sdk">Preparing your Android SDK</a></li>
+<li><a class="reference internal" href="#generating-a-debug-keystore">Generating a debug keystore</a></li>
+<li><a class="reference internal" href="#building-fino-service">Building Fino Service</a></li>
+<li><a class="reference internal" href="#building-gadget-app">Building Gadget app</a></li>
+<li><a class="reference internal" href="#installing-gadget-client-fino-console">Installing Gadget-client (Fino console)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Fino Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="first_steps.html"
+                        title="next chapter">First steps with Fino</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/setup.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="first_steps.html" title="First steps with Fino"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Fino Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sysdream.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

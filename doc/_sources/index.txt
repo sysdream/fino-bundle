@@ -1,0 +1,56 @@
+.. Fino Documentation documentation master file, created by
+   sphinx-quickstart on Tue Jan 28 10:54:51 2014.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Fino Documentation
+==================
+
+This is the official reference documentation of Fino, a framework for performing dynamic analysis of android applications.
+
+
+==================
+Framework Overview
+==================
+
+Fino is composed of three parts:
+
+* Fino Service, an injectable and remote-controlled service for Android application, with its injector
+* Gadget, an Android compatible TCP relaying application
+* Gadget-client, a python-based console performing all the magic
+
+
+===========================
+Installing Fino from Bundle
+===========================
+
+.. toctree::
+    :maxdepth: 2
+
+    bundle/setup.rst
+    bundle/first_steps.rst
+
+============================
+Installing Fino from Sources
+============================
+
+.. toctree::
+    :maxdepth: 2
+
+    sources/setup.rst
+    sources/first_steps.rst
+
+==========
+Using Fino
+==========
+
+
+.. toctree::
+    :maxdepth: 3
+
+    reflect.rst
+    activities.rst
+    resources.rst
+    macros.rst
+    adv_macros.rst
+

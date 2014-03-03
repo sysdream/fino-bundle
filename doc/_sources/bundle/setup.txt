@@ -1,0 +1,43 @@
+.. Fino setup guide
+    This document describes how to install a full working
+    environment for Fino
+
+===================
+How to install Fino
+===================
+
+
+If you want to setup your Fino environment from sources, be sure your configuration meet the following requirements:
+
+* OpenJDK
+* Python 2.7
+
+
+Install from bundle
+===================
+
+----------------------
+Cloning the repository
+----------------------
+
+Clone Fino bundle repository using git::
+
+    git clone https://github.com/sysdream/fino-bundle
+    cd fino-bundle
+
+
+------------------------
+Updating the SDK bundles
+------------------------
+
+Fino bundle is shipped with a Makefile able to update Android 32-bit and 64-bit SDKs. To get the bundled SDK version::
+
+    make install
+
+An update script will make the job for you (Internet access required). Then, check if everything is correct by compiling the builtin macros::
+
+    make macros
+
+If some error show up, please check your Java setup or the bundled SDKs. 
+
+

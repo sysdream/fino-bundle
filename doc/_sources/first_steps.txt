@@ -1,0 +1,97 @@
+.. First steps with Fino
+    This document describes how to use Fino, Gadget and Gadget-client in order
+    to gather information from a given application
+
+First steps with Fino
+=====================
+
+Once Fino framework installed, you are ready to test it against a sample application. We provide a sample application in our main Git repository.
+
+
+Preparing for analysis
+----------------------
+
+Fino works by injecting a small service inside the target application, and then accessing it to extract information and manipulate the inner components of the application, at many levels.
+
+==========================================
+Inject Fino inside your target application
+==========================================
+
+The **fino** git repository contains a dedicated script called *inject.sh* that may be used to inject Fino's service inside a target application and sign the newly created application. This script must be used as follows::
+
+    ./inject.sh SampleApplication.apk SampleApplication-with-fino.apk
+
+This script must be launch from the fino directory, since it uses *bin/injector.apk* to inject its small service. If everything is OK, then your end up with an APK containing Fino, ready to use.
+
+.. tip::
+    If you want to try Fino on a sample application, you may use the one generated during Fino's build, located at the root of Fino's repository.
+
+
+======================================
+Install your application on your Phone
+======================================
+
+Using adb (make sure your Android phone is connected through USB with *Install from unknown sources* option enabled and that no previous version of the application left on the device), install your modified APK::
+
+    adb install -f SampleApp.apk
+
+.. warning::
+    If you have previously installed the application on your phone, this command will produce an error message. Please uninstall it and try again.
+
+
+============================
+Install Gadget on your Phone
+============================
+
+Install the Gadget application the same way::
+
+    adb install Gadget.apk
+
+
+Setting up Fino's python console
+--------------------------------
+
+Once Gadget and the target Application (with Fino service inside) installed on your Phone through ADB, it's time to launch Fino console and make it connect to your target application !
+
+First, launch Gadget on your Phone. Gadget will automatically detect injected applications and will make them available from the Console. You may specify an alternate port using Gadget's interface, but 4444 (default) will be fine.
+
+Second, use *adb* to set up a TCP port forward on your machine, in order to be able to connect to Gadget through a socket::
+
+    adb forward tcp:4444 tcp:4444
+
+This will ask ADB to create a TCP proxy between your port 4444 on your machine (listening) and TCP port 4444 on your phone.
+
+Last, launch *shell.py* from *gadget-client* repository and it would list all the Fino-injected applications installed on your phone::
+
+    ./shell.py localhost 4444
+    Available packages: com.example.fino
+
+This is our sample application including Fino service, let's try to interact with it. Launch the application called *MainActivity*, and then the following shell::
+
+    ./shell.py localhost 4444 com.example.fino
+    ___________                     ______
+    |            | |..          |  .~      ~.
+    |______      | |  ``..      | |          |
+    |            | |      ``..  | |          |
+    |            | |          ``|  `.______.'
+
+    Fino  Copyright (C) 2012 Sysdream
+    This program comes with ABSOLUTELY NO WARRANTY.
+    This is free software, and you are welcome to redistribute it
+    under certain conditions, for details see COPYING.
+
+    Built-ins:
+        app    -- the current application
+        gadget -- the main gadget package
+        R      -- the standard resource namespace
+
+    >>> app.listActivities()[0].mTitle
+    'MainActivity'
+    >>>
+
+By calling a specific method of the *app* object, we can access the title of the main window, and even modify it on-the-fly::
+
+    >>> app.listActivities()[0].setTitle("Fino is working !")
+
+
+

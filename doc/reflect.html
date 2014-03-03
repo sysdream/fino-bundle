@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Manipulating types and classes &mdash; Fino Documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Fino Documentation 1.0 documentation" href="index.html" />
+    <link rel="next" title="Playing with Android Activities" href="activities.html" />
+    <link rel="prev" title="First steps with Fino (Sources)" href="sources/first_steps.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="activities.html" title="Playing with Android Activities"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sources/first_steps.html" title="First steps with Fino (Sources)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="manipulating-types-and-classes">
+<h1>Manipulating types and classes<a class="headerlink" href="#manipulating-types-and-classes" title="Permalink to this headline">¶</a></h1>
+<p>Fino provides an easy way to investigate various types and classes residing inside an application. It relies on Python&#8217;s auto-completion and introspection features.</p>
+<div class="section" id="builtin-types-bindings">
+<h2>Builtin types bindings<a class="headerlink" href="#builtin-types-bindings" title="Permalink to this headline">¶</a></h2>
+<p>Builtin types are automatically recognized by Fino framework and equiped with specific methods available from the shell. These methods vary from one builtin type to another.</p>
+<p>However, calling a method of an object with a default Python argument is completely transparent to the user. Only a few types are handled by Fino:</p>
+<ul class="simple">
+<li>integers</li>
+<li>strings</li>
+</ul>
+<p>Any other Java-specific types should be handled using <em>app.get_class()</em> method, as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ic</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_class</span><span class="p">(</span><span class="s">&#39;java.lang.Integer&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_integer</span> <span class="o">=</span> <span class="n">ic</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_integer</span>
+<span class="go">100</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="types-and-classes">
+<h2>Types and Classes<a class="headerlink" href="#types-and-classes" title="Permalink to this headline">¶</a></h2>
+<p>In Fino&#8217;s shell, you can call methods as if you were inside the application, and manipulate the results as well. For instance, getting the class name of an object is not as much difficult as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">current_act</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">listActivities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">current_act</span><span class="o">.</span><span class="n">getClass</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
+<span class="go">&#39;class com.example.fino.MainActivity&#39;</span>
+</pre></div>
+</div>
+<p>Or list all the methods and properties of a class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">(</span><span class="n">current_act</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="finding-objects-of-a-known-class">
+<h2>Finding objects of a known Class<a class="headerlink" href="#finding-objects-of-a-known-class" title="Permalink to this headline">¶</a></h2>
+<p>The builtin extension DeepInspect allows a recursive search among the existing objects, returning all the objects encountered that match a given type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">deepinsp</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;DeepInspect&#39;</span><span class="p">,</span> <span class="s">&#39;macros/deepinspect/DeepInspect.apk&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">finder</span> <span class="o">=</span> <span class="n">deepinsp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_act</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">listActivities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">finder</span><span class="o">.</span><span class="n">findObjects</span><span class="p">(</span><span class="n">my_act</span><span class="p">,</span> <span class="s">&quot;android.app.String&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">i</span>
+</pre></div>
+</div>
+<p>This pîece of code will find all <em>String</em> object starting from the first running activity, and return them in the <em>results</em> list. This list may be used to print each of them.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Manipulating types and classes</a><ul>
+<li><a class="reference internal" href="#builtin-types-bindings">Builtin types bindings</a></li>
+<li><a class="reference internal" href="#types-and-classes">Types and Classes</a></li>
+<li><a class="reference internal" href="#finding-objects-of-a-known-class">Finding objects of a known Class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sources/first_steps.html"
+                        title="previous chapter">First steps with Fino (Sources)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="activities.html"
+                        title="next chapter">Playing with Android Activities</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reflect.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="activities.html" title="Playing with Android Activities"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sources/first_steps.html" title="First steps with Fino (Sources)"
+             >previous</a> |</li>
+        <li><a href="index.html">Fino Documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Sysdream.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

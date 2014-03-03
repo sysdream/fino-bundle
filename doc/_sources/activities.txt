@@ -1,0 +1,60 @@
+.. Manipulating Android activities with Fino
+
+Playing with Android Activities
+===============================
+
+Android applications expose many *Activities* to the user that may be used to perform actions on the application. These *Activ ities* are in fact some kind of windows the user can interact with. There are also the main starting point of an analysis with Fino, because there are the only types of objects referenced by the system.
+
+
+==========================
+Finding running Activities
+==========================
+
+Fino shell provides a root object named *app* that provides a specific method to list running activities:
+
+.. code-block:: python
+
+    >>> app.listActivities()
+    []
+
+A call to *app.listActivities()* will return a list of running activities as objects that can be used directly to interact with them. Here is a sample code showing how to get the first running activity of a target application:
+
+
+.. code-block:: python
+
+    >>> my_activity = app.listActivities()[0]
+
+
+========================
+Manipulating an Activity
+========================
+
+Once an activity found, every public or private method can be called without any restriction. It is possible to change an activity's title:
+
+.. code-block:: python
+
+    >>> my_activity.setTitle("Ooops !")
+
+
+Other interesting methods are but not limited to:
+
+  * *getApplicationContext()*: retrieve the application Context
+  * *finish()*: close the activity
+  * *refresh()*: force Activity refresh (implemented in Fino shell)
+
+
+.. warning::
+    Note that some methods implemented in the *android.app.Activity* class (Java) must be run on the UI thread. In this case, Fino will automatically try to call the method outside the UI thread, and if an error occured in the UI thread. The point is a method run in the UI thread cannot return any value.
+
+
+====================
+Starting an Activity
+====================
+
+Running activities can be accessed by Fino, but Fino can also launch an Activity from scratch, with a default Intent:
+
+.. code-block:: python
+
+    >>> app.startActivity('org.sample.MainActivity')
+
+

@@ -1,0 +1,125 @@
+.. Fino setup guide
+    This document describes how to install a full working
+    environment for Fino
+
+===================
+How to install Fino
+===================
+
+
+If you want to setup your Fino environment from sources, be sure your configuration meet the following requirements:
+
+* Ant (1)
+* Apktool (http://code.google.com/p/android-apktool/) (1)
+* Android SDK (http://developer.android.com/sdk/index.html) (1)
+* OpenJDK
+* Python 2.7
+
+(1) These requesites are mandatory if you plan to install Fino from sources.
+
+Install from bundle
+===================
+
+----------------------
+Cloning the repository
+----------------------
+
+Clone Fino bundle repository using git::
+
+    git clone https://github.com/sysdream/fino-bundle
+    cd fino-bundle
+
+
+------------------------
+Updating the SDK bundles
+------------------------
+
+Fino bundle is shipped with a Makefile able to update Android 32-bit and 64-bit SDKs. To get the bundled SDK version::
+
+    make update
+
+An update script will make the job for you (Internet access required). Then, check if everything is correct by compiling the builtin macros::
+
+    make macros
+
+If some error show up, please check your Java setup or the bundled SDKs. 
+
+
+Install from sources
+====================
+
+--------------------------
+Preparing your Android SDK
+--------------------------
+
+Before doing anything else, make sure you have the latest version of Android SDK. If not, you may follow these steps:
+
+1. Go to http://developer.android.com/sdk/index.html and click on "Download the SDK"
+2. Install the Android SDK Bundle at a specific location (i.e. /opt/android-bundle/)
+3. Make sure the *sdk/platform-tools* directory is in your *PATH* environment variable
+4. Make sure the *sdk/tools* directory is in your *PATH* environment variable
+
+
+---------------------------
+Generating a debug keystore
+---------------------------
+
+In order to sign every modified application APK (once Fino service inside), a debug keystore is required by the injector. To create this keystore, execute this command::
+
+    mkdir -p ~/.android/
+    keytool -genkey -v -keystore ~/.android/fino.keystore -alias finokey -storepass finopass -keypass finopass -keyalg RSA -validity 14000
+
+.. warning::
+    This keystore has to be generated for each user who will be working with the framework
+
+.. tip::
+    This step is optional, as the building scripts will check and generate it if necessary.
+
+---------------------
+Building Fino Service
+---------------------
+
+First of all, you need to compile the Fino service in order to produce an unsigned APK file that will be used later by our injector. 
+
+Create a directory for your build::
+
+    mkdir build
+    cd build
+
+Clone Fino Service git repository::
+
+    git clone https://github.com/sysdream/fino.git
+    cd fino
+
+Build::
+
+    ./build.sh
+
+
+-------------------
+Building Gadget app
+-------------------
+
+It is exactly the same for building Gadget app from sources.
+
+Clone Gadget git repository::
+
+    cd ..
+    git clone https://github.com/sysdream/gadget.git
+    cd gadget
+
+Build::
+
+    ./build.sh
+
+
+---------------------------------------
+Installing Gadget-client (Fino console)
+---------------------------------------
+
+Eventually, clone Fino framework's git repository::
+
+    cd ..
+    git clone https://github.com/sysdream/gadget-client.git
+
+

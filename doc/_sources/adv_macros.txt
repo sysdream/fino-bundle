@@ -1,0 +1,58 @@
+.. Advanced macro usages
+    This document describes the advanced possible usages
+    of a macro, the way it is created and used
+
+Modifying the target application's behavior
+===========================================
+
+It is very easy to modify the behavior of a target application by wrapping one or many interesting object instances by other ones defined in one or many macros.
+
+
+=========================================
+Hooking a method with a dedicated wrapper
+=========================================
+
+In order to hook a specific method of a given class, a macro has to be created. This macro must contain a proxy class, forwarding all public methods to the original ones and performing specific operations for some of them. Practically, this is performed by designing a macro containing a class definition that extends the class to be proxified.
+
+Say we've found a class named *Foo* in the *com.example.foobar* package, performing some kind of operations in its method called *test*. We want to hook this method in order to know when it is called. 
+
+First, we define an empty class implementing the same public methods, just to be sure the Java compiler will not complain about it. Just implement all the public methods, with a void body. This java file has to be placed in the *com/example/foobar/* directory, in your macro folder (see how to create a macro).
+
+.. code-block:: java
+
+    package com.example.foobar;
+
+    class Foo {
+        public void test(String testStr) {
+        }
+    }
+
+Then, we create a new class that wraps this one:
+
+.. code-block:: java
+
+    import com.example.foobar.Foo;
+
+    class Bar extends Foo {
+
+        private Foo m_foo = null;
+
+        public Bar(Foo foo) {
+            m_foo = foo;
+        }
+
+
+        public void test(String testStr) {
+            Log.d("HOOK", "Hooked: " + testStr);
+            m_foo.test(testStr);
+        }
+    }
+
+The target *Foo* class that will be used at runtime will not be the one defined in our macro, but the one targeted by our macro and already defined in the target application. Compile a macro with this class, load it inside the target application and replace an existing instance with the wrapped one::
+
+    >>> bar_macro = app.load('Bar','macros/hook/Hook.apk')
+    >>> act.mFooInst = bar_macro(act.mFooInst)
+    >>> act.mFooInst.test('foobar')
+
+This causes the application to log the call to Foo's *test* method. This technique may be useful to intercept data before encryption occurs, or even right after a decryption step. It may also be used to avoid an operation.
+
