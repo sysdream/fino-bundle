@@ -7,55 +7,65 @@
 
 update_sdk_32(){
     echo "Removing current 32-bit SDK ..."
-    rm -rf sdk-32/* 1>/dev/null 2>/dev/null
+    rm -rf sdk/* 1>/dev/null 2>/dev/null
     echo "Downloading 32-bit Android SDK ..."
-    mkdir -p /tmp/sdk32/
-    curl $SDK32 > /tmp/sdk32/sdk32.zip
+    mkdir -p /tmp/sdk/
+    curl $SDK32 > /tmp/sdk/sdk32.zip
     echo "Unzipping and updating ..."
-    unzip -d /tmp/sdk32/ /tmp/sdk32/sdk32.zip 2>/dev/null 1>/dev/null
-    cp -rf /tmp/sdk32/adt-bundle-linux-x86-$SDK32_VER/sdk/* sdk-32/
-    rm -rf /tmp/sdk32
-    echo "$SDK32_VER" > sdk-32/version
+    unzip -d /tmp/sdk/ /tmp/sdk/sdk32.zip 2>/dev/null 1>/dev/null
+    cp -rf /tmp/sdk/adt-bundle-linux-x86-$SDK32_VER/sdk/* sdk/
+    rm -rf /tmp/sdk
+    echo "$SDK32_VER" > sdk/version
 }
 
 update_sdk_64(){
     echo "Removing current 64-bit SDK ..."
-    rm -rf sdk-64/* 1>/dev/null 2>/dev/null
+    rm -rf sdk/* 1>/dev/null 2>/dev/null
     echo "Downloading 64-bit Android SDK ..."
-    mkdir -p /tmp/sdk64/
-    curl $SDK64 > /tmp/sdk64/sdk64.zip
+    mkdir -p /tmp/sdk/
+    curl $SDK64 > /tmp/sdk/sdk64.zip
     echo "Unzipping and updating ..."
-    unzip -d /tmp/sdk64/ /tmp/sdk64/sdk64.zip 2>/dev/null 1>/dev/null
-    cp -rf /tmp/sdk64/adt-bundle-linux-x86_64-$SDK32_VER/sdk/* sdk-64/
-    rm -rf /tmp/sdk64
-    echo "$SDK64_VER" > sdk-64/version
+    unzip -d /tmp/sdk/ /tmp/sdk/sdk64.zip 2>/dev/null 1>/dev/null
+    cp -rf /tmp/sdk/adt-bundle-linux-x86_64-$SDK64_VER/sdk/* sdk/
+    rm -rf /tmp/sdk
+    echo "$SDK64_VER" > sdk/version
 }
 
 
 # Retrieve SDK URLS
 echo "Checking SDK versions ..."
 SDK_INDEX=$(curl -s "http://developer.android.com/sdk/index.html")
-SDK32=$(echo $SDK_INDEX | sed -n 's/.*\(http:\/\/dl.google.com\/android\/adt\/adt-bundle-linux-x86-[0-9]\+\.zip\).*/\1/p')
-SDK64=$(echo $SDK_INDEX | sed -n 's/.*\(http:\/\/dl.google.com\/android\/adt\/adt-bundle-linux-x86_64-[0-9]\+\.zip\).*/\1/p')
 
 # Check versions
-SDK32_VER=$(echo $SDK32 | sed -n 's/^.*-\([0-9]\+\)\.zip$/\1/p')
-SDK64_VER=$(echo $SDK64 | sed -n 's/^.*-\([0-9]\+\)\.zip$/\1/p')
-SDK32_CURVER=$(cat sdk-32/version)
-SDK64_CURVER=$(cat sdk-64/version)
+ARCH=$(getconf LONG_BIT)
+SDK_CURVER=$(cat sdk/version)
 
-if [ $SDK32_VER -ne $SDK32_CURVER ]; then
-    echo "New version of 32-bit Android SDK found, updating ..."
-    update_sdk_32
-    echo "Android 32-bit SDK up-to-date."
-else
-    echo "Android 32-bit SDK up-to-date, nothing to do."
-fi
+case $ARCH in
+    "32")
+        echo "32-bit SDK selected"
+        SDK32=$(echo $SDK_INDEX | sed -n 's/.*\(http:\/\/dl.google.com\/android\/adt\/adt-bundle-linux-x86-[0-9]\+\.zip\).*/\1/p')
+        SDK32_VER=$(echo $SDK32 | sed -n 's/^.*-\([0-9]\+\)\.zip$/\1/p')
 
-if [ $SDK64_VER -ne $SDK64_CURVER ]; then
-    echo "New version of 64-bit Android SDK found, updating ..."
-    update_sdk_64
-    echo "Android 64-bit SDK up-to-date."
-else
-    echo "Android 64-bit SDK up-to-date, nothing to do."
-fi
+        if [ $SDK32_VER -ne $SDK_CURVER ]; then
+            echo "New version of 32-bit Android SDK found, updating ..."
+            update_sdk_32
+            echo "Android 32-bit SDK up-to-date."
+        else
+            echo "Android 32-bit SDK up-to-date, nothing to do."
+        fi
+        ;;
+
+    "64")
+        echo "64-bit SDK selected"
+        SDK64=$(echo $SDK_INDEX | sed -n 's/.*\(http:\/\/dl.google.com\/android\/adt\/adt-bundle-linux-x86_64-[0-9]\+\.zip\).*/\1/p')
+        SDK64_VER=$(echo $SDK64 | sed -n 's/^.*-\([0-9]\+\)\.zip$/\1/p')
+
+        if [ $SDK64_VER -ne $SDK_CURVER ]; then
+            echo "New version of 64-bit Android SDK found, updating ..."
+            update_sdk_64
+            echo "Android 64-bit SDK up-to-date."
+        else
+            echo "Android 64-bit SDK up-to-date, nothing to do."
+        fi
+        ;;
+esac

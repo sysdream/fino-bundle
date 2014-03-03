@@ -1,5 +1,4 @@
-ARCH=$(shell getconf LONG_BIT)
-SDK_PATH=../../sdk-$(ARCH)
+SDK_PATH=../../sdk
 DX=$(SDK_PATH)/build-tools/android-4.4/dx
 JAVAC=javac
 JAVA_TARGET=-target 1.7 -source 1.7
