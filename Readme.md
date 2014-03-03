@@ -19,5 +19,5 @@ A sample application named 'SampleApp.apk' is provided in the 'apps' directory. 
 Credits
 -------
 
-Damien Cauquil (@virtualabs)
-Pierre Jaury (@kaiyou_)
+* Damien Cauquil (@virtualabs)
+* Pierre Jaury (@kaiyou_)
