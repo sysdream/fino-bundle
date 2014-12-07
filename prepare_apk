@@ -9,7 +9,7 @@ if [ $# -ne 2 ]; then
     echo "Usage: prepare-apk APK_SOURCE APK_DEST"
 else
 
-    if [ -e $1 ] && [ -e $2 ]; then
+    if [ -e $1 ]; then
 
         # prepare the directory structure
         rm -rf /tmp/patch
