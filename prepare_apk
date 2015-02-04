@@ -17,8 +17,8 @@ else
 
         # disassemble original apk and injected apk
         echo "Preparing APK for injection ..."
-        apktool d resources/injector.apk /tmp/patch/injector 1>/dev/null 2>/dev/null
-        apktool d $1 /tmp/patch/orig 1>/dev/null 2>/dev/null
+        ./tools/apktool d resources/injector.apk -o /tmp/patch/injector 1>/dev/null 2>/dev/null
+        ./tools/apktool d $1 -o /tmp/patch/orig 1>/dev/null 2>/dev/null
 
         # injecting introspection classes
         echo "Injecting Fino service ..."
@@ -32,7 +32,7 @@ else
 
         # build the unsigned apk
         echo "Rebuilding the APK ..."
-        apktool b /tmp/patch/orig /tmp/patch/tmp.apk 1>/dev/null 2>/dev/null
+        ./tools/apktool b /tmp/patch/orig -o /tmp/patch/tmp.apk 1>/dev/null 2>/dev/null
 
         # sign the final apk
         jarsigner -verbose -sigalg MD5withRSA -digestalg SHA1 -keystore fino.keystore -storepass finopass -signedjar $2 /tmp/patch/tmp.apk finokey 1>/dev/null 2>/dev/null
