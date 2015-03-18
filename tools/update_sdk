@@ -43,8 +43,8 @@ SDK_CURVER=$(cat sdk/version)
 case $ARCH in
     "32")
         echo "32-bit SDK selected"
-        SDK32=$(echo $SDK_INDEX | sed -n 's/.*\(https:\/\/dl.google.com\/android\/adt\/adt-bundle-linux-x86-[0-9]\+\.zip\).*/\1/p')
-        SDK32_VER=$(echo $SDK32 | sed -n 's/^.*-\([0-9]\+\)\.zip$/\1/p')
+        SDK32=$(echo $SDK_INDEX | sed -n 's/.*\(http:\/\/dl.google.com\/android\/android-sdk_r[0-9]\+\.[0-9]\+\.[0-9]\+-linux\.tgz\).*/\1/p')
+        SDK32_VER=$(echo $SDK64 | sed -n 's/^.*-sdk_r\([0-9]\+\)\.[0-9]\+.[0-9]\+-linux\.tgz$/\1/p')
 
         if [ $SDK32_VER -ne $SDK_CURVER ]; then
             echo "New version of 32-bit Android SDK found, updating ..."
@@ -57,8 +57,8 @@ case $ARCH in
 
     "64")
         echo "64-bit SDK selected"
-        SDK64=$(echo $SDK_INDEX | sed -n 's/.*\(https:\/\/dl.google.com\/android\/adt\/adt-bundle-linux-x86_64-[0-9]\+\.zip\).*/\1/p')
-        SDK64_VER=$(echo $SDK64 | sed -n 's/^.*-\([0-9]\+\)\.zip$/\1/p')
+        SDK64=$(echo $SDK_INDEX | sed -n 's/.*\(http:\/\/dl.google.com\/android\/android-sdk_r[0-9]\+\.[0-9]\+\.[0-9]\+-linux\.tgz\).*/\1/p')
+        SDK64_VER=$(echo $SDK64 | sed -n 's/^.*-sdk_r\([0-9]\+\)\.[0-9]\+.[0-9]\+-linux\.tgz$/\1/p')
 
         if [ $SDK64_VER -ne $SDK_CURVER ]; then
             echo "New version of 64-bit Android SDK found, updating ..."
