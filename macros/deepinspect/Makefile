@@ -1,5 +1,5 @@
 SDK_PATH=../../sdk
-DX=$(SDK_PATH)/build-tools/android-4.4W/dx
+DX=$(SDK_PATH)/build-tools/22.0.1/dx
 JAVAC=javac
 JAVA_TARGET=-target 1.7 -source 1.7
 ANDROID_LIB=$(SDK_PATH)/platforms/$(ANDROID_TARGET)/android.jar
